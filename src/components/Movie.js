@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import DeleteMovieModal from './DeleteMovieModal';
+
 
 import axios from 'axios';
 
@@ -22,9 +22,13 @@ const Movie = (props) => {
     }, [id]);
 
     const handleDelete = e =>{
-        return(
-            <DeleteMovieModal id={id} deleteMovie={deleteMovie}/>
-        )
+        axios.delete(`http://localhost:9000/api/movie/${id}`)
+        .then(resp => {
+            console.log(resp)
+            deleteMovie(id)
+            push('/movies')
+        })
+        .catch(err => console.log(err))
     }
 
     return(<div className="modal-page col">
